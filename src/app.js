@@ -1,8 +1,28 @@
+const fs = require("fs");
 const app = (req, res) => {
-  res.statusCode = 404;
+  getURLData(req.url, res);
+};
+
+const getURLData = function(url, res) {
+  let file = "." + url;
+  if (url == "/") {
+    file = "./src/index.html";
+  }
+  readFileData(file, res);
+};
+
+const sendData = function(res, data, statusCode) {
+  res.statusCode = statusCode;
+  res.write(data);
   res.end();
 };
 
-// Export a function that can act as a handler
-
+const readFileData = function(file, res) {
+  fs.readFile(file, (err, data) => {
+    if (err) {
+      return sendData(res, "Request Not Found", 404);
+    }
+    return sendData(res, data, 200);
+  });
+};
 module.exports = app;

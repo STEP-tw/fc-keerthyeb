@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>Page Title</title>
+    <script>
+      const callInterval = function() {
+        let waterJar = document.getElementById("waterJar");
+        waterJar.style.visibility = "hidden";
+        setTimeout(() => {
+          waterJar.style.visibility = "visible";
+        }, 1000);
+      };
+    </script>
+  </head>
+  <body>
+    <h1
+      style="color : orange;border-bottom:1px solid black; border-top: 1px solid gray; text-align: center"
+    >
+      Flower Catalog
+    </h1>
+    <div style="display: flex">
+      <div><img src="../freshorigins.jpg" /></div>
+      <div style="margin: 40px;">
+        <ul>
+          <li><a href="#">Abeliophyllum</a></li>
+          <li><a href="#"> Ageratum</a></li>
+        </ul>
+        <img
+          src="../animated-flower-image-0021.gif"
+          id="waterJar"
+          onclick="callInterval()"
+        />
+        <a href="#">Guest Book</a>
+      </div>
+    </div>
+  </body>
+</html>
