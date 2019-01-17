@@ -4,9 +4,9 @@ const app = (req, res) => {
 };
 
 const getURLData = function(url, res) {
-  let file = "." + url;
+  let file = "./public" + url;
   if (url == "/") {
-    file = "./src/index.html";
+    file = "./public/index.html";
   }
   readFileData(file, res);
 };
@@ -18,11 +18,14 @@ const sendData = function(res, data, statusCode) {
 };
 
 const readFileData = function(file, res) {
+  let statusCode = 200;
+  const PAGE_NOT_FOUND = `<html><center><img src="/404.jpg"></center></html>`;
   fs.readFile(file, (err, data) => {
     if (err) {
-      return sendData(res, "Request Not Found", 404);
+      data = PAGE_NOT_FOUND;
+      statusCode = 404;
     }
-    return sendData(res, data, 200);
+    sendData(res, data, statusCode);
   });
 };
 module.exports = app;
