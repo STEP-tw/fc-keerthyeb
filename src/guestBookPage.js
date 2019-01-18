@@ -12,7 +12,6 @@ const getGuestBookPage = function(req, res) {
     });
 
     table += `</table>`;
-    console.log(table);
     let guestBook = `<html>
   <head>
     <title>Page Title</title>
