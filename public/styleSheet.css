@@ -20,3 +20,10 @@ input {
 textarea {
   font-size: 15px;
 }
+
+.description {
+  display: flex;
+}
+.content {
+  margin-top: 200px;
+}
