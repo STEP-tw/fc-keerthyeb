@@ -8,10 +8,11 @@ const getGuestBookPage = function(req, res) {
     let table =
       "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
     data.reverse().forEach(d => {
-      table += `<tr><td>${d.datetime}</td><td>${d.name}</td><td>${d.comment}`;
+      table += createRow(d);
     });
 
     table += `</table>`;
+    console.log(table);
     let guestBook = `<html>
   <head>
     <title>Page Title</title>
@@ -47,5 +48,9 @@ const getGuestBookPage = function(req, res) {
     res.write(guestBook);
     res.end();
   });
+};
+
+const createRow = function({ datetime, name, comment }) {
+  return `<tr><td>${datetime}</td><td>${name}</td><td>${comment}`;
 };
 module.exports = getGuestBookPage;
