@@ -1,6 +1,6 @@
 const fs = require("fs");
-const Sheeghra = require("../public/sheeghra");
-const getGuestBookPage = require("../public/guestBookPage");
+const Sheeghra = require("./sheeghra");
+const getGuestBookPage = require("./guestBookPage");
 const app = new Sheeghra();
 const requestHandler = app.handleRequest.bind(app);
 
