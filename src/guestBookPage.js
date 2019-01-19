@@ -3,7 +3,7 @@ const fs = require("fs");
 const getGuestBookPage = function(req, res, commentsDetails) {
   let table =
     "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
-  commentsDetails.reverse().forEach(d => {
+  commentsDetails.forEach(d => {
     table += createRow(d);
   });
   table += `</table>`;

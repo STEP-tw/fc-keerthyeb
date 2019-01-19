@@ -4,7 +4,7 @@ const FILE_ENCODING = "utf-8";
 
 class Comment {
   constructor() {
-    this.readCommentFromFile();
+    this.userComments = "";
   }
 
   readCommentFromFile() {

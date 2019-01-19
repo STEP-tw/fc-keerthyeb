@@ -4,16 +4,18 @@ const app = new Sheeghra();
 const getGuestBookPage = require("./guestBookPage");
 const { Comment } = require("./comment.js");
 let comments = new Comment();
-const requestHandler = app.handleRequest.bind(app);
+comments.readCommentFromFile();
+const ROOT_DIR = "./public";
+const HOME_PAGE = "/index.html";
 
 const readFileContent = function(req, res) {
   getGuestBookPage(req, res, comments.getComments());
 };
 
 const getURLData = function(req, res) {
-  let file = "./public" + req.url;
+  let file = ROOT_DIR + req.url;
   if (req.url == "/") {
-    file = "./public/index.html";
+    file = ROOT_DIR + HOME_PAGE;
   }
   readFileData(file, res);
 };
@@ -69,5 +71,6 @@ app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
 app.post("/guestBook.html", handlePOSTRequest);
 app.use(getURLData);
+const requestHandler = app.handleRequest.bind(app);
 
 module.exports = requestHandler;
