@@ -1,19 +1,13 @@
 const fs = require("fs");
 const Sheeghra = require("./sheeghra");
-const getGuestBookPage = require("./guestBookPage");
 const app = new Sheeghra();
+const getGuestBookPage = require("./guestBookPage");
+const { Comment } = require("./comment.js");
+let comments = new Comment();
 const requestHandler = app.handleRequest.bind(app);
 
-class Comments {
-  getComments() {
-    let commentsDetails = fs.readFileSync("./src/data.JSON", "utf-8");
-    commentsDetails = commentsDetails.slice(0, -1);
-    this.commentsDetails = JSON.parse(`[${commentsDetails}]`);
-  }
-}
-
 const readFileContent = function(req, res) {
-  getGuestBookPage(req, res, comments.commentsDetails);
+  getGuestBookPage(req, res, comments.getComments());
 };
 
 const getURLData = function(req, res) {
@@ -54,7 +48,6 @@ const readFileData = function(file, res) {
 };
 
 const handlePOSTRequest = function(req, res) {
-  let commentsDetails = comments.commentsDetails;
   let content = "";
   req.on("data", chunk => {
     content += chunk;
@@ -62,15 +55,8 @@ const handlePOSTRequest = function(req, res) {
   req.on("end", () => {
     let date = new Date().toLocaleString();
     content += "&dateTime=" + date;
-    content = readArgs(content);
-    commentsDetails.push(content);
-    let jsonData = JSON.stringify(commentsDetails) + ",";
-    fs.writeFile("./src/data.JSON", jsonData, err => {
-      if (err) {
-        console.log("error");
-      }
-      getGuestBookPage(req, res, commentsDetails);
-    });
+    comments.addComment(readArgs(content));
+    getGuestBookPage(req, res, comments.getComments());
   });
 };
 
@@ -78,9 +64,6 @@ const logRequest = function(req, res, next) {
   console.log(req.method + req.url);
   next();
 };
-
-let comments = new Comments();
-comments.getComments();
 
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
