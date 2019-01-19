@@ -1,18 +1,13 @@
 const fs = require("fs");
 
-const getGuestBookPage = function(req, res) {
-  fs.readFile("./src/data.JSON", "utf-8", (err, data) => {
-    data = data.slice(0, -1);
-    data = JSON.parse(`[${data}]`);
-
-    let table =
-      "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
-    data.reverse().forEach(d => {
-      table += createRow(d);
-    });
-
-    table += `</table>`;
-    let guestBook = `<html>
+const getGuestBookPage = function(req, res, commentsDetails) {
+  let table =
+    "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
+  commentsDetails.reverse().forEach(d => {
+    table += createRow(d);
+  });
+  table += `</table>`;
+  let guestBook = `<html>
   <head>
     <title>Page Title</title>
     <link rel="stylesheet" type="text/css" href="styleSheet.css" />
@@ -42,11 +37,9 @@ const getGuestBookPage = function(req, res) {
       </div>
     </form>
   </body>
-</html>
-`;
-    res.write(guestBook);
-    res.end();
-  });
+</html>`;
+  res.write(guestBook);
+  res.end();
 };
 
 const createRow = function({ datetime, name, comment }) {

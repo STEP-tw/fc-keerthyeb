@@ -4,6 +4,15 @@ const getGuestBookPage = require("./guestBookPage");
 const app = new Sheeghra();
 const requestHandler = app.handleRequest.bind(app);
 
+let commentsDetails = "";
+const readFileContent = function(req, res) {
+  fs.readFile("./src/data.JSON", "utf-8", (err, data) => {
+    commentsDetails = data.slice(0, -1);
+    commentsDetails = JSON.parse(`[${commentsDetails}]`);
+    getGuestBookPage(req, res, commentsDetails);
+  });
+};
+
 const getURLData = function(req, res) {
   let file = "./public" + req.url;
   if (req.url == "/") {
@@ -50,22 +59,24 @@ const handlePOSTRequest = function(req, res) {
     let date = new Date().toLocaleString();
     content += "&datetime=" + date;
     content = readArgs(content);
-    let jsonData = JSON.stringify(content) + ",";
-    fs.appendFile("./src/data.JSON", jsonData, err => {
+    commentsDetails.push(content);
+    let jsonData = JSON.stringify(commentsDetails) + ",";
+    fs.writeFile("./src/data.JSON", jsonData, err => {
       if (err) {
         console.log("error");
       }
-      getGuestBookPage(req, res);
+      getGuestBookPage(req, res, commentsDetails);
     });
   });
 };
 
-const handleGETRequest = function(req, res) {
-  let data = readArgs(req.url);
-  sendData(res, JSON.stringify(data));
+const logRequest = function(req, res, next) {
+  console.log(req.method + req.url);
+  next();
 };
 
-app.get("/guestBook.html", getGuestBookPage);
+app.use(logRequest);
+app.get("/guestBook.html", readFileContent);
 app.post("/guestBook.html", handlePOSTRequest);
 app.use(getURLData);
 
