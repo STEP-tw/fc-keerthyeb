@@ -4,13 +4,16 @@ const getGuestBookPage = require("./guestBookPage");
 const app = new Sheeghra();
 const requestHandler = app.handleRequest.bind(app);
 
-let commentsDetails = "";
+class Comments {
+  getComments() {
+    let commentsDetails = fs.readFileSync("./src/data.JSON", "utf-8");
+    commentsDetails = commentsDetails.slice(0, -1);
+    this.commentsDetails = JSON.parse(`[${commentsDetails}]`);
+  }
+}
+
 const readFileContent = function(req, res) {
-  fs.readFile("./src/data.JSON", "utf-8", (err, data) => {
-    commentsDetails = data.slice(0, -1);
-    commentsDetails = JSON.parse(`[${commentsDetails}]`);
-    getGuestBookPage(req, res, commentsDetails);
-  });
+  getGuestBookPage(req, res, comments.commentsDetails);
 };
 
 const getURLData = function(req, res) {
@@ -51,13 +54,14 @@ const readFileData = function(file, res) {
 };
 
 const handlePOSTRequest = function(req, res) {
+  let commentsDetails = comments.commentsDetails;
   let content = "";
   req.on("data", chunk => {
     content += chunk;
   });
   req.on("end", () => {
     let date = new Date().toLocaleString();
-    content += "&datetime=" + date;
+    content += "&dateTime=" + date;
     content = readArgs(content);
     commentsDetails.push(content);
     let jsonData = JSON.stringify(commentsDetails) + ",";
@@ -74,6 +78,9 @@ const logRequest = function(req, res, next) {
   console.log(req.method + req.url);
   next();
 };
+
+let comments = new Comments();
+comments.getComments();
 
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);

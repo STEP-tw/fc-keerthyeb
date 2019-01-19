@@ -42,7 +42,7 @@ const getGuestBookPage = function(req, res, commentsDetails) {
   res.end();
 };
 
-const createRow = function({ datetime, name, comment }) {
-  return `<tr><td>${datetime}</td><td>${name}</td><td>${comment}`;
+const createRow = function({ dateTime, name, comment }) {
+  return `<tr><td>${dateTime}</td><td>${name}</td><td>${comment}`;
 };
 module.exports = getGuestBookPage;
