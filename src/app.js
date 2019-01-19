@@ -28,7 +28,7 @@ const sendData = function(res, data, statusCode) {
 
 const readFileData = function(file, res) {
   let statusCode = 200;
-  const PAGE_NOT_FOUND = `<html><center><img src="/404.jpg"></center></html>`;
+  const PAGE_NOT_FOUND = `<html><center><img src="../images/404.jpg"></center></html>`;
   fs.readFile(file, (err, data) => {
     if (err) {
       data = PAGE_NOT_FOUND;
