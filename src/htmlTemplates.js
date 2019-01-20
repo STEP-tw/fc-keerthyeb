@@ -22,11 +22,28 @@ const GUEST_BOOK_PAGE = `<html>
 
       <button id="submit" class="submit">submit</button>
       <hr />
+    </form>
 
-      <div id="data" style=" width: 1300px ; height  : 400px">`;
+      <p><h2>COMMENTS</h2><button id="refresh" class="refresh" onclick = "refresh()">&#x21bb;</button></p>
+     <div id="data" class= "comments" style=" width: 1300px ; height  : 400px">`;
 
 const GUEST_BOOK_PAGE_FOOTER = `</div>
-    </form>
+    <script>
+      const refresh = function() {
+     fetch("/guestBook.html")
+    .then(res => {
+      let htmlPage = res.text();
+      return htmlPage;
+    })
+    .then(data => {
+      let newHTML = document.createElement("html");
+      newHTML.innerHTML = data;
+      document.getElementById(
+        "data"
+      ).innerHTML = newHTML.getElementsByClassName("comments")[0].innerHTML;
+    });
+};
+    </script>
   </body>
 </html>`;
 
