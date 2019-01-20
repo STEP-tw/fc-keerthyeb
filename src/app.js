@@ -1,7 +1,11 @@
 const fs = require("fs");
 const Sheeghra = require("./sheeghra");
 const getGuestBookPage = require("./guestBookPage");
-const { Comment } = require("./comment.js");
+const {
+  Comment,
+  KEYS_SEPERATOR,
+  KEY_VALUE_SEPERATOR
+} = require("./comment.js");
 
 let comments = new Comment();
 comments.readCommentFromFile();
@@ -18,6 +22,17 @@ const getURLData = function(req, res) {
     file = ROOT_DIR + HOME_PAGE;
   }
   readFileData(file, res);
+};
+
+const readArgs = function(text) {
+  let args = {};
+  const splitKeyValue = pair => pair.split(KEY_VALUE_SEPERATOR);
+  const assignKeyValueToArgs = ([key, value]) => (args[key] = value);
+  text
+    .split(KEYS_SEPERATOR)
+    .map(splitKeyValue)
+    .forEach(assignKeyValueToArgs);
+  return args;
 };
 
 const sendData = function(res, data, statusCode) {
@@ -44,7 +59,9 @@ const handlePOSTRequest = function(req, res) {
     content += chunk;
   });
   req.on("end", () => {
-    comments.addComment(content);
+    let date = new Date().toLocaleString();
+    content += KEYS_SEPERATOR + "dateTime" + KEY_VALUE_SEPERATOR + date;
+    comments.addComment(readArgs(content));
     getGuestBookPage(req, res, comments.getComments());
   });
 };

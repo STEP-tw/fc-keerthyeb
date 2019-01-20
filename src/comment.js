@@ -20,21 +20,8 @@ class Comment {
   }
 
   addComment(comment) {
-    let date = new Date().toLocaleString();
-    comment += KEYS_SEPERATOR + "dateTime" + KEY_VALUE_SEPERATOR + date;
-    this.userComments.unshift(this.readArgs(comment));
+    this.userComments.unshift(comment);
     this.writeCommentToFile();
-  }
-
-  readArgs(text) {
-    let args = {};
-    const splitKeyValue = pair => pair.split(KEY_VALUE_SEPERATOR);
-    const assignKeyValueToArgs = ([key, value]) => (args[key] = value);
-    text
-      .split(KEYS_SEPERATOR)
-      .map(splitKeyValue)
-      .forEach(assignKeyValueToArgs);
-    return args;
   }
 
   writeCommentToFile() {
@@ -47,4 +34,4 @@ class Comment {
   }
 }
 
-module.exports = { Comment };
+module.exports = { Comment, KEYS_SEPERATOR, KEY_VALUE_SEPERATOR };
