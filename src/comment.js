@@ -1,5 +1,5 @@
 const fs = require("fs");
-const USER_COMMENT_FILE = "./src/data.json";
+const USER_COMMENT_FILE = "./data/data.json";
 const FILE_ENCODING = "utf-8";
 const KEYS_SEPERATOR = "&";
 const KEY_VALUE_SEPERATOR = "=";
