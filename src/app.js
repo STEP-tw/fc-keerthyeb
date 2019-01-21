@@ -74,15 +74,13 @@ const logRequest = function(req, res, next) {
 };
 
 const getCommentsHtml = function(req, res) {
-  let data = generateTable.bind(null, comments.getComments())();
-  res.write(data);
+  res.write(generateTable(comments.getComments()));
   res.end();
 };
 
 const app = new Sheeghra();
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
-console.log(comments.getComments(), "called");
 app.get("/comments", getCommentsHtml);
 app.post("/guestBook.html", handlePOSTRequest);
 app.use(getURLData);
