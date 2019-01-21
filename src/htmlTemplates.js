@@ -12,12 +12,12 @@ const GUEST_BOOK_PAGE = `<html>
       <h2>Leave a comment</h2>
 
       <div class="field_style">
-        <label>Name</label>: <input type="text" name="name" id="name" />
+        <label>Name</label>: <input type="text" name="name" id="name" required />
       </div>
 
       <div class="field_style">
         <label>comment</label>:
-        <textarea name="comment" id="comment" cols="20" rows="5"></textarea>
+        <textarea name="comment" id="comment" cols="20" rows="5" required></textarea>
       </div>
 
       <button id="submit" class="submit">submit</button>

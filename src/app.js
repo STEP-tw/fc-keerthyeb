@@ -1,6 +1,6 @@
 const fs = require("fs");
 const Sheeghra = require("./sheeghra");
-const getGuestBookPage = require("./guestBookPage");
+const { getGuestBookPage, generateTable } = require("./guestBookPage");
 const {
   Comment,
   KEYS_SEPERATOR,
@@ -25,6 +25,7 @@ const getURLData = function(req, res) {
 };
 
 const readArgs = function(text) {
+  console.log(text);
   let args = {};
   const splitKeyValue = pair => pair.split(KEY_VALUE_SEPERATOR);
   const assignKeyValueToArgs = ([key, value]) => (args[key] = value);
@@ -71,9 +72,16 @@ const logRequest = function(req, res, next) {
   next();
 };
 
+const getCommentsHtml = function(req, res) {
+  let data = generateTable.bind(null, comments.getComments())();
+  res.write(data);
+  res.end();
+};
+
 const app = new Sheeghra();
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
+app.get("/comments", getCommentsHtml);
 app.post("/guestBook.html", handlePOSTRequest);
 app.use(getURLData);
 const requestHandler = app.handleRequest.bind(app);

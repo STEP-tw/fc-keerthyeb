@@ -21,4 +21,4 @@ const generateTable = function(data) {
 const createRow = function({ dateTime, name, comment }) {
   return `<tr><td>${dateTime}</td><td>${name}</td><td>${comment}</td></tr>`;
 };
-module.exports = getGuestBookPage;
+module.exports = { getGuestBookPage, generateTable };

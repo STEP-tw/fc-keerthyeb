@@ -10,9 +10,9 @@ class Comment {
   }
 
   readCommentFromFile() {
-    fs.readFile(USER_COMMENT_FILE, FILE_ENCODING, (error, content) => {
-      this.userComments = JSON.parse(content);
-    });
+    this.userComments = JSON.parse(
+      fs.readFileSync(USER_COMMENT_FILE, FILE_ENCODING)
+    );
   }
 
   getComments() {
