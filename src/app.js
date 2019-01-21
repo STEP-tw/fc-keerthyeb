@@ -25,16 +25,17 @@ const getURLData = function(req, res) {
 };
 
 const readArgs = function(text) {
-  console.log(text);
   let args = {};
   const splitKeyValue = pair => pair.split(KEY_VALUE_SEPERATOR);
-  const assignKeyValueToArgs = ([key, value]) => (args[key] = value);
+  const assignKeyValueToArgs = ([key, value]) => (args[key] = decode(value));
   text
     .split(KEYS_SEPERATOR)
     .map(splitKeyValue)
     .forEach(assignKeyValueToArgs);
   return args;
 };
+
+const decode = data => decodeURIComponent(data).replace("+", " ");
 
 const sendData = function(res, data, statusCode) {
   res.statusCode = statusCode;
@@ -81,6 +82,7 @@ const getCommentsHtml = function(req, res) {
 const app = new Sheeghra();
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
+console.log(comments.getComments(), "called");
 app.get("/comments", getCommentsHtml);
 app.post("/guestBook.html", handlePOSTRequest);
 app.use(getURLData);
