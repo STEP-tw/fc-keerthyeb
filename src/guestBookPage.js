@@ -1,13 +1,11 @@
 const fs = require("fs");
-const {
-  GUEST_BOOK_PAGE,
-  GUEST_BOOK_PAGE_FOOTER
-} = require("./htmlTemplates.js");
 
 const getGuestBookPage = function(req, res, commentsDetails) {
-  let table = generateTable(commentsDetails);
-  res.write(GUEST_BOOK_PAGE + table + GUEST_BOOK_PAGE_FOOTER);
-  res.end();
+  fs.readFile("./src/htmlTemplates.html", "utf-8", (err, htmlPage) => {
+    let table = generateTable(commentsDetails);
+    res.write(htmlPage.replace("_table_", table));
+    res.end();
+  });
 };
 
 const generateTable = function(data) {
