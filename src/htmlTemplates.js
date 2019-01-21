@@ -28,22 +28,7 @@ const GUEST_BOOK_PAGE = `<html>
      <div id="data" class= "comments" style=" width: 1300px ; height  : 400px">`;
 
 const GUEST_BOOK_PAGE_FOOTER = `</div>
-    <script>
-      const refresh = function() {
-     fetch("/guestBook.html")
-    .then(res => {
-      let htmlPage = res.text();
-      return htmlPage;
-    })
-    .then(data => {
-      let newHTML = document.createElement("html");
-      newHTML.innerHTML = data;
-      document.getElementById(
-        "data"
-      ).innerHTML = newHTML.getElementsByClassName("comments")[0].innerHTML;
-    });
-};
-    </script>
+    <script src="/script/fetchComments.js"></script>
   </body>
 </html>`;
 
