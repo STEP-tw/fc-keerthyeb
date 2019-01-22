@@ -61,10 +61,11 @@ const handlePOSTRequest = function(req, res) {
     content += chunk;
   });
   req.on("end", () => {
-    let date = new Date().toLocaleString();
-    content += KEYS_SEPERATOR + "dateTime" + KEY_VALUE_SEPERATOR + date;
-    comments.addComment(readArgs(content));
-    getGuestBookPage(req, res, comments.getComments());
+    let date = new Date();
+    content = JSON.parse(content);
+    content["dateTime"] = date;
+    comments.addComment(content);
+    getCommentsHtml(req, res);
   });
 };
 
@@ -74,15 +75,14 @@ const logRequest = function(req, res, next) {
 };
 
 const getCommentsHtml = function(req, res) {
-  res.write(generateTable(comments.getComments()));
-  res.end();
+  sendData(res, generateTable(comments.getComments()), 200);
 };
 
 const app = new Sheeghra();
 app.use(logRequest);
 app.get("/guestBook.html", readFileContent);
 app.get("/comments", getCommentsHtml);
-app.post("/guestBook.html", handlePOSTRequest);
+app.post("/comments", handlePOSTRequest);
 app.use(getURLData);
 const requestHandler = app.handleRequest.bind(app);
 
