@@ -7,7 +7,7 @@ const refresh = function() {
 };
 
 const sendComment = function() {
-  let name = document.getElementById("name").value;
+  let name = document.getElementById("user").textContent;
   let comment = document.getElementById("comment").value;
   fetch("/comments", {
     method: "POST",
@@ -16,7 +16,6 @@ const sendComment = function() {
     .then(res => res.text())
     .then(data => {
       document.getElementById("data").innerHTML = data;
-      document.getElementById("name").value = "";
       document.getElementById("comment").value = "";
     });
 };
