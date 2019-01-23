@@ -9,22 +9,22 @@ class Comment {
     this.userComments = "";
   }
 
-  readCommentFromFile() {
+  load() {
     this.userComments = JSON.parse(
       fs.readFileSync(USER_COMMENT_FILE, FILE_ENCODING)
     );
   }
 
-  getComments() {
+  read() {
     return this.userComments;
   }
 
-  addComment(comment) {
+  add(comment) {
     this.userComments.unshift(comment);
-    this.writeCommentToFile();
+    this.write();
   }
 
-  writeCommentToFile() {
+  write() {
     fs.writeFile(
       USER_COMMENT_FILE,
       JSON.stringify(this.userComments),

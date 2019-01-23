@@ -4,12 +4,12 @@ const { getGuestBookPage, generateTable } = require("./guestBookPage");
 const { Comment } = require("./comment.js");
 
 let comments = new Comment();
-comments.readCommentFromFile();
+comments.load();
 const ROOT_DIR = "./public";
 const HOME_PAGE = "/index.html";
 
 const readFileContent = function(req, res) {
-  getGuestBookPage(req, res, comments.getComments());
+  getGuestBookPage(req, res, comments.read());
 };
 
 const getCommentPage = function(req, res) {
@@ -52,7 +52,7 @@ const handlePOSTRequest = function(req, res) {
   let date = new Date();
   content = JSON.parse(content);
   content["dateTime"] = date;
-  comments.addComment(content);
+  comments.add(content);
   getCommentsHtml(req, res);
 };
 
@@ -62,7 +62,7 @@ const logRequest = function(req, res, next) {
 };
 
 const getCommentsHtml = function(req, res) {
-  sendData(res, generateTable(comments.getComments()), 200);
+  sendData(res, generateTable(comments.read()), 200);
 };
 
 const loadCookies = function(request, response, next) {
