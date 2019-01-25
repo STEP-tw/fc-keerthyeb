@@ -1,8 +1,10 @@
+const getCommentDiv = () => document.getElementById("data");
+
 const refresh = function() {
   fetch("/comments")
     .then(res => res.text())
-    .then(data => {
-      document.getElementById("data").innerHTML = data;
+    .then(comment => {
+      updateComment(comment);
     });
 };
 
@@ -14,8 +16,13 @@ const sendComment = function() {
     body: JSON.stringify({ name, comment })
   })
     .then(res => res.text())
-    .then(data => {
-      document.getElementById("data").innerHTML = data;
+    .then(comment => {
+      updateComment(comment);
       document.getElementById("comment").value = "";
     });
+};
+
+const updateComment = function(comment) {
+  let commentsDiv = getCommentDiv();
+  commentsDiv.innerHTML = comment;
 };
