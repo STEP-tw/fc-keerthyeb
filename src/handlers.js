@@ -43,7 +43,7 @@ const logRequest = function(req, res, next) {
 };
 
 const loginHandler = function(req, res) {
-  let cookie = decode(req.body.split("=")[1]);
+  let cookie = "username=" + decode(req.body.split("=")[1]);
   setCookie(res, cookie);
   res.writeHead(302, { Location: "/guestBook.html" });
   res.end();
@@ -51,7 +51,8 @@ const loginHandler = function(req, res) {
 
 const logoutHandler = function(req, res) {
   const expiryDate = "Thu, 01 Jan 1970 00:00:00 UTC";
-  res.setHeader("Set-Cookie", `username=;expires=${expiryDate};`);
+  const cookie = `username =; expires = ${expiryDate}`;
+  setCookie(res, cookie);
   res.writeHead(302, { Location: "/guestBook.html" });
   res.end();
 };
@@ -95,8 +96,7 @@ const sendData = function(res, data, statusCode) {
   res.write(data);
   res.end();
 };
-const setCookie = (res, cookie) =>
-  res.setHeader("Set-Cookie", "username=" + cookie);
+const setCookie = (res, cookie) => res.setHeader("Set-Cookie", cookie);
 
 module.exports = {
   serveFile,

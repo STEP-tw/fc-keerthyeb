@@ -1,33 +1,17 @@
 const fs = require("fs");
-let html = {
-  loginHTML: `<html><form method="POST" action="/login">
-<label >Name:</label>
-<input id="txtName"  type="text" name="name" required>
-<input type="submit"  value="Login">
-</form></html>`,
-
-  commentHTML: `<form method="POST" action="/logout">
-<div>
-  <label >Name:</label>
-  <label id="user">####NAME####</label>
-<input type="submit" value="Logout">
-
-</div>
-<div>
-  <label >Comment:</label>
-  <textarea id="comment" name="comment" rows="5" cols="30"></textarea>
-</div>
-</form>
-    <button id="submit" class="submit" onclick="sendComment()">submit</button>
-`
-};
+const {
+  GUEST_BOOK,
+  FILE_ENCODING,
+  LOGIN_HTML,
+  COMMENT_HTML
+} = require("./constants");
 
 const getGuestBookPage = function(req, res, commentsDetails) {
-  fs.readFile("./src/htmlTemplates.html", "utf-8", (err, htmlPage) => {
-    let userName = req.cookies.username;
-    let replacer = html.loginHTML;
+  fs.readFile(GUEST_BOOK, FILE_ENCODING, (err, htmlPage) => {
+    const userName = req.cookies.username;
+    let replacer = LOGIN_HTML;
     if (userName) {
-      replacer = html.commentHTML;
+      replacer = COMMENT_HTML;
       replacer = replacer.replace("####NAME####", userName);
     }
     htmlPage = htmlPage.replace("_loginSection_", replacer);
@@ -37,6 +21,7 @@ const getGuestBookPage = function(req, res, commentsDetails) {
     res.end();
   });
 };
+
 const generateTable = function(data) {
   let table =
     "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
@@ -49,6 +34,7 @@ const createRow = function({ dateTime, name, comment }) {
   const commentTime = new Date(dateTime).toLocaleString();
   return `<tr><td>${commentTime}</td><td>${name}</td><td>${comment}</td></tr>`;
 };
+
 module.exports = {
   getGuestBookPage,
   generateTable
