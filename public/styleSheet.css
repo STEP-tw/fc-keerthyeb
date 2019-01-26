@@ -4,6 +4,12 @@ label {
   font-size: 20px;
 }
 
+h1 {
+  color: orange;
+  text-align: right;
+  margin-right: 300px;
+}
+
 .field_style {
   margin-bottom: 13px;
 }
