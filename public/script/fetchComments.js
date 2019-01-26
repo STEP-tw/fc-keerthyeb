@@ -1,4 +1,8 @@
-const getCommentDiv = () => document.getElementById("comment_session");
+const getCommentDiv = document => document.getElementById("comment_session");
+const getUserName = document => document.getElementById("user").textContent;
+const getCurrentComment = document => document.getElementById("comment").value;
+const clearComment = document =>
+  (document.getElementById("comment").value = "");
 
 const refresh = function() {
   fetch("/comments")
@@ -9,8 +13,8 @@ const refresh = function() {
 };
 
 const sendComment = function() {
-  let name = document.getElementById("user").textContent;
-  let comment = document.getElementById("comment").value;
+  const name = getUserName(document);
+  const comment = getCurrentComment(document);
   fetch("/comments", {
     method: "POST",
     body: JSON.stringify({ name, comment })
@@ -18,11 +22,11 @@ const sendComment = function() {
     .then(res => res.text())
     .then(comment => {
       updateComment(comment);
-      document.getElementById("comment").value = "";
+      clearComment(document);
     });
 };
 
 const updateComment = function(comment) {
-  let commentsDiv = getCommentDiv();
+  let commentsDiv = getCommentDiv(document);
   commentsDiv.innerHTML = comment;
 };
