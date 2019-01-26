@@ -1,4 +1,4 @@
-const getCommentDiv = () => document.getElementById("data");
+const getCommentDiv = () => document.getElementById("comment_session");
 
 const refresh = function() {
   fetch("/comments")

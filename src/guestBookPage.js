@@ -17,7 +17,9 @@ let html = {
   <label >Comment:</label>
   <textarea id="comment" name="comment" rows="5" cols="30"></textarea>
 </div>
-</form>`
+</form>
+    <button id="submit" class="submit" onclick="sendComment()">submit</button>
+`
 };
 
 const getGuestBookPage = function(req, res, commentsDetails) {

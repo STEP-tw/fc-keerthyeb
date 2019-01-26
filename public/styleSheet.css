@@ -21,6 +21,11 @@ textarea {
   font-size: 15px;
 }
 
+.comment {
+  width: 1300px;
+  height: 400px;
+}
+
 .description {
   display: flex;
 }
