@@ -7,12 +7,14 @@ const {
   FILE_ENCODING
 } = require("./constants");
 const { decode } = require("./utils");
-const { Comment } = require("./comment.js");
+const { Comment, initializeDataDirectory } = require("./comment.js");
 const REDIRECTS = { "/": ROOT_DIR + HOME_PAGE };
+initializeDataDirectory();
 
 const userComments = JSON.parse(
   fs.readFileSync(USER_COMMENT_FILE, FILE_ENCODING)
 );
+
 let comments = new Comment(userComments);
 
 const loadCookies = function(req, res, next) {

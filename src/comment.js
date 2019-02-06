@@ -4,7 +4,6 @@ const FILE_ENCODING = "utf-8";
 
 class Comment {
   constructor(userComments) {
-    initializeDataDirectory();
     this.userComments = userComments;
   }
   read() {
@@ -27,8 +26,8 @@ class Comment {
 const initializeDataDirectory = function() {
   if (!fs.existsSync("./data")) {
     fs.mkdirSync("./data");
-    fs.writeFileSync("./data/data.json", "{}");
+    fs.writeFileSync("./data/data.json", "[]");
   }
 };
 
-module.exports = { Comment };
+module.exports = { Comment, initializeDataDirectory };
