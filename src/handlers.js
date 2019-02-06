@@ -1,14 +1,8 @@
 const fs = require("fs");
 const { getGuestBookPage, generateTable } = require("./guestBookPage");
-const {
-  ROOT_DIR,
-  HOME_PAGE,
-  USER_COMMENT_FILE,
-  FILE_ENCODING
-} = require("./constants");
+const { USER_COMMENT_FILE, FILE_ENCODING } = require("./constants");
 const { decode } = require("./utils");
 const { Comment, initializeDataDirectory } = require("./comment.js");
-const REDIRECTS = { "/": ROOT_DIR + HOME_PAGE };
 initializeDataDirectory();
 
 const userComments = JSON.parse(
@@ -76,23 +70,6 @@ const updateComments = function(req, res) {
   getComments(req, res);
 };
 
-const serveFile = function(req, res) {
-  const requestedRoute = resolveRequestedRoute(req.url);
-  let statusCode = 200;
-  const PAGE_NOT_FOUND = `<html><center><img src="../images/404.jpg"></center></html>`;
-  fs.readFile(requestedRoute, (err, data) => {
-    if (err) {
-      data = PAGE_NOT_FOUND;
-      statusCode = 404;
-    }
-    sendData(res, data, statusCode);
-  });
-};
-
-const resolveRequestedRoute = function(url) {
-  return REDIRECTS[url] || ROOT_DIR + url;
-};
-
 const sendData = function(res, data, statusCode) {
   res.statusCode = statusCode;
   res.write(data);
@@ -101,7 +78,6 @@ const sendData = function(res, data, statusCode) {
 const setCookie = (res, cookie) => res.setHeader("Set-Cookie", cookie);
 
 module.exports = {
-  serveFile,
   updateComments,
   getComments,
   loadGuestBook,

@@ -1,4 +1,6 @@
-const Sheeghra = require("./sheeghra");
+const express = require("express");
+const app = express();
+
 const {
   loadCookies,
   readData,
@@ -7,11 +9,9 @@ const {
   logoutHandler,
   loadGuestBook,
   getComments,
-  updateComments,
-  serveFile
+  updateComments
 } = require("./handlers");
 
-const app = new Sheeghra();
 app.use(loadCookies);
 app.use(readData);
 app.use(logRequest);
@@ -20,7 +20,6 @@ app.post("/logout", logoutHandler);
 app.get("/guestBook.html", loadGuestBook);
 app.get("/comments", getComments);
 app.post("/comments", updateComments);
-app.use(serveFile);
-const requestHandler = app.handleRequest.bind(app);
+app.use(express.static("public"));
 
-module.exports = requestHandler;
+module.exports = app;
