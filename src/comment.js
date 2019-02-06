@@ -24,9 +24,9 @@ class Comment {
 }
 
 const initializeDataDirectory = function() {
-  if (!fs.existsSync("./data")) {
-    fs.mkdirSync("./data");
-    fs.writeFileSync("./data/data.json", "[]");
+  if (!fs.existsSync("data")) {
+    fs.mkdirSync("data");
+    fs.writeFileSync("data/data.json", "[]");
   }
 };
 

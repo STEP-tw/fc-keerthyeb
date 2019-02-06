@@ -25,7 +25,6 @@ const getGuestBookPage = function(req, res, commentsDetails) {
 const generateTable = function(data) {
   let table =
     "<table border = 2><tr><th>DATETIME</th><th>NAME</th><th>COMMENT</th></tr>";
-  console.log("data", data);
   table += data.map(createRow).join("");
   table += `</table>`;
   return table;
