@@ -21,7 +21,9 @@
   "homepage": "https://github.com/STEP-tw/fc-keerthyeb#readme",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
     "mocha": "^5.2.0"
   }
 }
