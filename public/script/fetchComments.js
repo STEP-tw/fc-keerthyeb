@@ -17,7 +17,8 @@ const sendComment = function() {
   const comment = getCurrentComment(document);
   fetch("/comments", {
     method: "POST",
-    body: JSON.stringify({ name, comment })
+    body: JSON.stringify({ name, comment }),
+    headers: { "content-type": "application/json" }
   })
     .then(res => res.text())
     .then(comment => {

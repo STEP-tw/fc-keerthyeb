@@ -1,9 +1,9 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 
 const {
   loadCookies,
-  readData,
   logRequest,
   loginHandler,
   logoutHandler,
@@ -12,8 +12,9 @@ const {
   updateComments
 } = require("./handlers");
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(loadCookies);
-app.use(readData);
 app.use(logRequest);
 app.post("/login", loginHandler);
 app.post("/logout", logoutHandler);

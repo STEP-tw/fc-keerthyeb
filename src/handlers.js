@@ -24,22 +24,13 @@ const loadCookies = function(req, res, next) {
   next();
 };
 
-const readData = function(request, res, next) {
-  let content = "";
-  request.on("data", chunk => (content += chunk));
-  request.on("end", () => {
-    request.body = content;
-    next();
-  });
-};
-
 const logRequest = function(req, res, next) {
   console.log(req.method + req.url);
   next();
 };
 
 const loginHandler = function(req, res) {
-  let cookie = "username=" + decode(req.body.split("=")[1]);
+  let cookie = "username=" + decode(req.body.name);
   setCookie(res, cookie);
   res.writeHead(302, { Location: "/guestBook.html" });
   res.end();
@@ -64,7 +55,6 @@ const getComments = function(req, res) {
 const updateComments = function(req, res) {
   let content = req.body;
   let date = new Date();
-  content = JSON.parse(content);
   content["dateTime"] = date;
   comments.add(content);
   getComments(req, res);
@@ -84,6 +74,5 @@ module.exports = {
   logoutHandler,
   loginHandler,
   loadCookies,
-  logRequest,
-  readData
+  logRequest
 };
