@@ -1,28 +1,14 @@
 const fs = require("fs");
 const { getGuestBookPage, generateTable } = require("./guestBookPage");
 const { USER_COMMENT_FILE, FILE_ENCODING } = require("./constants");
-const { decode } = require("./utils");
+const decode = require("./utils");
 const { Comment, initializeDataDirectory } = require("./comment.js");
 initializeDataDirectory();
 
 const userComments = JSON.parse(
   fs.readFileSync(USER_COMMENT_FILE, FILE_ENCODING)
 );
-
 let comments = new Comment(userComments);
-
-const loadCookies = function(req, res, next) {
-  const cookie = req.headers["cookie"];
-  let cookies = {};
-  if (cookie) {
-    cookie.split(";").forEach(element => {
-      const [name, value] = element.split("=");
-      cookies[name] = value;
-    });
-  }
-  req.cookies = cookies;
-  next();
-};
 
 const logRequest = function(req, res, next) {
   console.log(req.method + req.url);
@@ -73,6 +59,5 @@ module.exports = {
   loadGuestBook,
   logoutHandler,
   loginHandler,
-  loadCookies,
   logRequest
 };
